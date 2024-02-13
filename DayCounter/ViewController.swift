@@ -33,7 +33,25 @@ class ViewController: UIViewController {
         
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .automatic
+        datePicker.addTarget(self, action: #selector(dateChange(datePicker:)), for: .valueChanged)
+        datePicker.frame.size = CGSize(width: 0, height: 50)
+        textField.inputView = datePicker
+        
     }
+    
+    @objc func dateChange(datePicker: UIDatePicker) {
+        textField.text = formatDate(date: datePicker.date)
+    }
+    
+    private func formatDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM, dd"
+        return formatter.string(from: date)
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
