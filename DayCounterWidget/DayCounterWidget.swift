@@ -65,8 +65,8 @@ struct DayCounterWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             DayCounterWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("DayCounter Widget")
+        .description("Displays the number of days from a chosen date.")
     }
 }
 
