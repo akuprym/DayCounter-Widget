@@ -4,7 +4,7 @@
 //
 //  Created by admin on 9.02.24.
 //
-
+import WidgetKit
 import UIKit
 
 class ViewController: UIViewController {
@@ -43,7 +43,14 @@ class ViewController: UIViewController {
     }
 
     @objc func didTapButton() {
+        textField.resignFirstResponder()
         
+        let userDefaults = UserDefaults(suiteName: "group.com.daycounter.widgetcache")
+        
+        guard let text = textField.text, !text.isEmpty else { return }
+        
+        userDefaults?.setValue(text, forKey: "text")
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
 }
