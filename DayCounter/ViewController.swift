@@ -8,12 +8,19 @@ import WidgetKit
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    private let datePicker = UIDatePicker()
+    
     private let textField: UITextField = {
        let textFeild = UITextField()
         textFeild.placeholder = "Choose a date"
         textFeild.backgroundColor = .white
         return textFeild
+    }()
+    
+    private let textField2: UITextField = {
+        let textField2 = UITextField()
+        return textField2
     }()
     
     private let button: UIButton = {
@@ -29,11 +36,11 @@ class ViewController: UIViewController {
         view.backgroundColor = .gray
         view.addSubview(textField)
         view.addSubview(button)
+        view.addSubview(textField2)
         textField.becomeFirstResponder()
         
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         
-        let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .automatic
         datePicker.addTarget(self, action: #selector(dateChange(datePicker:)), for: .valueChanged)
@@ -44,6 +51,7 @@ class ViewController: UIViewController {
     
     @objc func dateChange(datePicker: UIDatePicker) {
         textField.text = formatDate(date: datePicker.date)
+       
     }
     
     private func formatDate(date: Date) -> String {
@@ -58,6 +66,8 @@ class ViewController: UIViewController {
         textField.frame = CGRect(x: 20, y: view.safeAreaInsets.top+10, width: view.frame.width-40, height: 50)
         
         button.frame = CGRect(x: 30, y: view.safeAreaInsets.top+70, width: view.frame.width-60, height: 40)
+        
+        textField2.frame = CGRect(x: 20, y: view.safeAreaInsets.top+130, width: view.frame.width-40, height: 50)
     }
 
     @objc func didTapButton() {
@@ -65,9 +75,9 @@ class ViewController: UIViewController {
         
         let userDefaults = UserDefaults(suiteName: "group.com.daycounter.widgetcache")
         
-        guard let text = textField.text, !text.isEmpty else { return }
+        let date = datePicker.date
         
-        userDefaults?.setValue(text, forKey: "text")
+        userDefaults?.setValue(date, forKey: "date")
         WidgetCenter.shared.reloadAllTimelines()
     }
 
