@@ -50,7 +50,7 @@ struct DayCounterWidgetLiveActivity: Widget {
             } minimal: {
                 Text("Min")
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
+            .widgetURL(URL(string: ""))
             .keylineTint(Color.red)
         }
     }

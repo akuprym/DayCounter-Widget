@@ -11,11 +11,11 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), days: 0, configuration: ConfigurationIntent())
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+        let entry = SimpleEntry(date: Date(), days: 0, configuration: configuration)
         completion(entry)
     }
 
@@ -23,12 +23,12 @@ struct Provider: IntentTimelineProvider {
         var entries: [SimpleEntry] = []
         
         let userDefaults = UserDefaults(suiteName: "group.com.daycounter.widgetcache")
-        let date = userDefaults?.value(forKey: "date") as? Date ?? Date()
+        let days = userDefaults?.value(forKey: "days")
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .day, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: date, configuration: configuration)
+            let entry = SimpleEntry(date: Date(), days: days as? Int ?? 0, configuration: configuration)
             entries.append(entry)
         }
 
@@ -39,6 +39,7 @@ struct Provider: IntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
+    let days: Int
     let configuration: ConfigurationIntent
 }
 
@@ -49,15 +50,14 @@ struct DayCounterWidgetEntryView : View {
         ZStack {
             GeometryReader { geo in
                 Image("photo")
-                    .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
-                    .foregroundColor(Color.brown)
+                    .foregroundColor(.red)
             }
         }
         
-        Text(entry.date, style: .date)
-            .font(Font.system(size: 24, weight: .semibold, design: .default))    }
+        Text("I've been sugar-free for \(entry.days) days")
+        .font(Font.system(size: 24, weight: .bold, design: .rounded))    }
 }
 
 struct DayCounterWidget: Widget {
@@ -74,7 +74,7 @@ struct DayCounterWidget: Widget {
 
 struct DayCounterWidget_Previews: PreviewProvider {
     static var previews: some View {
-        DayCounterWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+        DayCounterWidgetEntryView(entry: SimpleEntry(date: Date(), days: 0, configuration: ConfigurationIntent()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

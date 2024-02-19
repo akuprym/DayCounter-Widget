@@ -75,9 +75,12 @@ class ViewController: UIViewController {
         
         let userDefaults = UserDefaults(suiteName: "group.com.daycounter.widgetcache")
         
+        let calendar = Calendar.current
         let date = datePicker.date
         
-        userDefaults?.setValue(date, forKey: "date")
+        let days = calendar.dateComponents([.day], from: date, to: Date())
+        
+        userDefaults?.setValue(days.day, forKey: "days")
         WidgetCenter.shared.reloadAllTimelines()
     }
 
