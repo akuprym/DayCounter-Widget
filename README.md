@@ -2,7 +2,7 @@ Inspired by Duolingo's widget.
 
 **Idea:**
 
-I wanted to cut down on sugar. While using Duolingo, I noticed that widgets really motivate to keep on track.
+ The widget helps count days you've been sugar-free. While using Duolingo, I noticed that widgets really motivate to keep on track.
 
 **Functuanality: **
 
